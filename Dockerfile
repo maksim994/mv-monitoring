@@ -19,6 +19,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Disable telemetry during build
 ENV NEXT_TELEMETRY_DISABLED 1
+# NextAuth: empty NEXTAUTH_URL breaks `next build` prerender (Invalid URL)
+ENV NEXTAUTH_URL=http://localhost:3000
+ENV NEXTAUTH_SECRET=build-placeholder-secret-change-in-production-min-32-chars
 RUN npm run build
 
 # Production image, copy all the files and run next
