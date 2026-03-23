@@ -9,8 +9,11 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.edge.kernel.org/g' /etc/apk/reposit
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json package-lock.json .npmrc ./
+# --include=dev: Coolify often sets NODE_ENV=production during build; without this,
+# devDependencies (TypeScript, etc.) are skipped and `next build` can break.
+# --no-audit: faster CI; audit locally instead.
+RUN npm ci --include=dev --no-audit --no-fund
 
 # Rebuild the source code only when needed
 FROM base AS builder
