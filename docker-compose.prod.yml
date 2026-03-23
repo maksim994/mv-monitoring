@@ -19,8 +19,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+    # Do not bind host :3000 — conflicts with other stacks / Coolify proxy. Traefik routes to container port 3000.
+    expose:
+      - "3000"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-mv_monitoring}
       - REDIS_URL=redis://redis:6379
