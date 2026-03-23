@@ -1,7 +1,9 @@
 FROM node:20-alpine AS base
 
 # Install necessary system utilities for dig, whois, and http-inspector
-RUN apk add --no-cache bind-tools whois curl
+# Use Yandex mirror in case default alpine CDN is blocked/throttled on the VPS
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirror.yandex.ru/g' /etc/apk/repositories && \
+    apk add --no-cache bind-tools whois curl
 
 # Install dependencies only when needed
 FROM base AS deps
