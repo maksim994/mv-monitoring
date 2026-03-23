@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: deps
+      # deps stage has no source files — drizzle-kit needs drizzle.config.ts + schema
+      target: builder
+    working_dir: /app
     entrypoint: ["npx", "drizzle-kit", "push"]
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-mv_monitoring}
