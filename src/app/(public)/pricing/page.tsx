@@ -4,25 +4,56 @@ import { planLimits, siteMarketing } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
 import { buttonVariants } from "@/lib/button-variants";
 import { cn } from "@/lib/utils";
+import { withDbFallback } from "@/lib/with-db-fallback";
+
+/** Совпадает с сидами plan_limit (сборка Docker без БД). */
+const PLAN_FALLBACK_FREE: typeof planLimits.$inferSelect = {
+  planKey: "free",
+  maxProjects: 1,
+  maxPagesPerUser: 5,
+  minIntervalMinutes: 60,
+  allowTelegram: false,
+  allowWebhook: false,
+  priceRubPerMonth: 0,
+  updatedAt: new Date(0),
+};
+
+const PLAN_FALLBACK_PRO: typeof planLimits.$inferSelect = {
+  planKey: "pro",
+  maxProjects: 20,
+  maxPagesPerUser: 200,
+  minIntervalMinutes: 5,
+  allowTelegram: true,
+  allowWebhook: true,
+  priceRubPerMonth: 299,
+  updatedAt: new Date(0),
+};
 
 export default async function PricingPage() {
-  const [freeRow, proRow] = await Promise.all([
-    db.query.planLimits.findFirst({ where: eq(planLimits.planKey, "free") }),
-    db.query.planLimits.findFirst({ where: eq(planLimits.planKey, "pro") }),
-  ]);
+  const { freeRow, proRow, intro } = await withDbFallback(
+    async () => {
+      const [f, p] = await Promise.all([
+        db.query.planLimits.findFirst({ where: eq(planLimits.planKey, "free") }),
+        db.query.planLimits.findFirst({ where: eq(planLimits.planKey, "pro") }),
+      ]);
+      const introRows = await db.query.siteMarketing.findMany({
+        where: inArray(siteMarketing.key, ["pricing_intro"]),
+      });
+      return {
+        freeRow: f ?? undefined,
+        proRow: p ?? undefined,
+        intro: introRows[0]?.value ?? "Тарифы MV Monitor.",
+      };
+    },
+    {
+      freeRow: undefined,
+      proRow: undefined,
+      intro: "Тарифы MV Monitor.",
+    }
+  );
 
-  const introRows = await db.query.siteMarketing.findMany({
-    where: inArray(siteMarketing.key, ["pricing_intro"]),
-  });
-  const intro = introRows[0]?.value ?? "Тарифы MV Monitor.";
-
-  if (!freeRow || !proRow) {
-    return (
-      <div className="container mx-auto px-6 py-24">
-        <p className="text-muted-foreground">Тарифы временно недоступны.</p>
-      </div>
-    );
-  }
+  const displayFree = freeRow ?? PLAN_FALLBACK_FREE;
+  const displayPro = proRow ?? PLAN_FALLBACK_PRO;
 
   return (
     <div className="container mx-auto px-6 py-24 max-w-4xl">
@@ -34,14 +65,14 @@ export default async function PricingPage() {
           <h2 className="text-xl font-medium mb-2">Free</h2>
           <p className="text-3xl font-medium mb-6">0 ₽</p>
           <ul className="space-y-2 text-sm text-muted-foreground mb-8">
-            <li>Проектов: до {freeRow.maxProjects}</li>
-            <li>Мониторов (URL): до {freeRow.maxPagesPerUser}</li>
-            <li>Интервал проверки: не чаще {freeRow.minIntervalMinutes} мин</li>
+            <li>Проектов: до {displayFree.maxProjects}</li>
+            <li>Мониторов (URL): до {displayFree.maxPagesPerUser}</li>
+            <li>Интервал проверки: не чаще {displayFree.minIntervalMinutes} мин</li>
             <li>
               Уведомления:{" "}
-              {freeRow.allowTelegram ? "email и Telegram" : "только email"}
+              {displayFree.allowTelegram ? "email и Telegram" : "только email"}
             </li>
-            <li>Webhook: {freeRow.allowWebhook ? "да" : "нет"}</li>
+            <li>Webhook: {displayFree.allowWebhook ? "да" : "нет"}</li>
           </ul>
           <Link
             href="/register"
@@ -53,14 +84,14 @@ export default async function PricingPage() {
 
         <div className="rounded-2xl border border-primary/30 bg-card p-8 ring-1 ring-primary/20">
           <h2 className="text-xl font-medium mb-2">PRO</h2>
-          <p className="text-3xl font-medium mb-1">{proRow.priceRubPerMonth} ₽</p>
+          <p className="text-3xl font-medium mb-1">{displayPro.priceRubPerMonth} ₽</p>
           <p className="text-sm text-muted-foreground mb-6">в месяц, списание через ЮKassa</p>
           <ul className="space-y-2 text-sm text-muted-foreground mb-8">
-            <li>Проектов: до {proRow.maxProjects}</li>
-            <li>Мониторов (URL): до {proRow.maxPagesPerUser}</li>
-            <li>Мин. интервал: {proRow.minIntervalMinutes} мин</li>
-            <li>Telegram: {proRow.allowTelegram ? "да" : "нет"}</li>
-            <li>Webhook: {proRow.allowWebhook ? "да" : "нет"}</li>
+            <li>Проектов: до {displayPro.maxProjects}</li>
+            <li>Мониторов (URL): до {displayPro.maxPagesPerUser}</li>
+            <li>Мин. интервал: {displayPro.minIntervalMinutes} мин</li>
+            <li>Telegram: {displayPro.allowTelegram ? "да" : "нет"}</li>
+            <li>Webhook: {displayPro.allowWebhook ? "да" : "нет"}</li>
           </ul>
           <Link
             href="/register"

@@ -6,6 +6,9 @@ import { desc, eq } from "drizzle-orm";
 
 type Props = { params: Promise<{ slug: string }> };
 
+/** Не кэшировать при сборке: иначе возможны обращения к БД без Postgres в Docker build. */
+export const dynamic = "force-dynamic";
+
 export default async function PublicStatusPage({ params }: Props) {
   const { slug } = await params;
   const normalized = slug.trim().toLowerCase();

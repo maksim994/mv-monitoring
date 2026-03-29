@@ -5,13 +5,18 @@ import { ArrowRight, Activity, ShieldCheck, Terminal, Zap, BarChart3 } from "luc
 import { db } from "@/db";
 import { siteMarketing } from "@/db/schema";
 import { inArray } from "drizzle-orm";
+import { withDbFallback } from "@/lib/with-db-fallback";
 
 const HERO_KEYS = ["home_hero_title", "home_hero_subtitle"] as const;
 
 export default async function Home() {
-  const heroRows = await db.query.siteMarketing.findMany({
-    where: inArray(siteMarketing.key, [...HERO_KEYS]),
-  });
+  const heroRows = await withDbFallback(
+    () =>
+      db.query.siteMarketing.findMany({
+        where: inArray(siteMarketing.key, [...HERO_KEYS]),
+      }),
+    []
+  );
   const hero: Record<string, string> = {
     home_hero_title: "Мы создаем надежный мониторинг",
     home_hero_subtitle:
