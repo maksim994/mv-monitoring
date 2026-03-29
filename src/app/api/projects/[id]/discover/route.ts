@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { projects } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import * as cheerio from "cheerio";
+import { domainBlocksPageOperations, domainVerificationRequiredResponse } from "@/lib/project-domain";
 
 async function fetchTitle(url: string): Promise<string> {
   try {
@@ -156,6 +157,10 @@ export async function GET(
   });
 
   if (!project) return new NextResponse("Not found", { status: 404 });
+
+  if (domainBlocksPageOperations(project)) {
+    return domainVerificationRequiredResponse();
+  }
 
   let discoveredUrls = await discoverFromSitemap(targetUrl);
   

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,9 +10,14 @@ import { Label } from "@/components/ui/label";
 export function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [consent, setConsent] = React.useState(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
+    if (!consent) {
+      alert("Нужно согласие на обработку персональных данных.");
+      return;
+    }
     setIsLoading(true);
 
     const target = event.target as typeof event.target & {
@@ -29,6 +35,7 @@ export function RegisterForm() {
         name: target.name.value,
         email: target.email.value,
         password: target.password.value,
+        personalDataConsent: true,
       }),
     });
 
@@ -46,7 +53,7 @@ export function RegisterForm() {
       <form onSubmit={onSubmit}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="name" className="text-zinc-400">Имя</Label>
+            <Label htmlFor="name" className="text-muted-foreground">Имя</Label>
             <Input
               id="name"
               placeholder="Иван Иванов"
@@ -55,12 +62,12 @@ export function RegisterForm() {
               autoComplete="name"
               autoCorrect="off"
               disabled={isLoading}
-              className="h-10 bg-black border-white/10 focus-visible:ring-white/20"
+              className="h-10 bg-muted border-border focus-visible:ring-ring/40"
               required
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="email" className="text-zinc-400">Email</Label>
+            <Label htmlFor="email" className="text-muted-foreground">Email</Label>
             <Input
               id="email"
               placeholder="name@example.com"
@@ -69,21 +76,36 @@ export function RegisterForm() {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
-              className="h-10 bg-black border-white/10 focus-visible:ring-white/20"
+              className="h-10 bg-muted border-border focus-visible:ring-ring/40"
               required
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password" className="text-zinc-400">Пароль</Label>
+            <Label htmlFor="password" className="text-muted-foreground">Пароль</Label>
             <Input
               id="password"
               type="password"
               disabled={isLoading}
-              className="h-10 bg-black border-white/10 focus-visible:ring-white/20"
+              className="h-10 bg-muted border-border focus-visible:ring-ring/40"
               required
             />
           </div>
-          <Button type="submit" disabled={isLoading} className="h-10 bg-white text-black hover:bg-zinc-200 font-medium mt-2">
+          <label className="flex cursor-pointer items-start gap-2.5 text-sm text-muted-foreground">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded-sm border border-input accent-primary"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+              disabled={isLoading}
+            />
+            <span className="leading-snug">
+              Согласен на обработку персональных данных в соответствии с{" "}
+              <Link href="/legal/privacy" className="text-primary underline underline-offset-2">
+                политикой конфиденциальности
+              </Link>
+            </span>
+          </label>
+          <Button type="submit" disabled={isLoading} className="h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-medium mt-2">
             {isLoading && (
               <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
             )}

@@ -43,20 +43,20 @@ export default function WebsiteAuditPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <SearchCode className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <SearchCode className="h-4 w-4 text-foreground" />
             </div>
             Website Audit
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Быстрая проверка базового SEO: robots.txt, sitemap.xml и мета-тегов
           </p>
         </div>
@@ -71,11 +71,11 @@ export default function WebsiteAuditPage() {
                 placeholder="https://example.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Анализ..." : "Анализировать"}
             </Button>
           </form>
@@ -95,9 +95,9 @@ export default function WebsiteAuditPage() {
                   <div className="flex items-start gap-3">
                     <StatusIcon ok={result.robots.found} />
                     <div>
-                      <h3 className="font-medium text-white mb-1">robots.txt</h3>
+                      <h3 className="font-medium text-foreground mb-1">robots.txt</h3>
                       {result.robots.found ? (
-                        <p className="text-sm text-zinc-400">Файл найден. {result.robots.hasSitemap ? "Содержит ссылку на Sitemap." : "Ссылка на Sitemap отсутствует."}</p>
+                        <p className="text-sm text-muted-foreground">Файл найден. {result.robots.hasSitemap ? "Содержит ссылку на Sitemap." : "Ссылка на Sitemap отсутствует."}</p>
                       ) : (
                         <p className="text-sm text-red-400">Файл не найден. Поисковики могут индексировать лишнее.</p>
                       )}
@@ -110,9 +110,9 @@ export default function WebsiteAuditPage() {
                   <div className="flex items-start gap-3">
                     <StatusIcon ok={result.sitemap.found} warn={!result.sitemap.found} />
                     <div className="overflow-hidden">
-                      <h3 className="font-medium text-white mb-1">sitemap.xml</h3>
+                      <h3 className="font-medium text-foreground mb-1">sitemap.xml</h3>
                       {result.sitemap.found ? (
-                        <p className="text-sm text-zinc-400 truncate" title={result.sitemap.url}>
+                        <p className="text-sm text-muted-foreground truncate" title={result.sitemap.url}>
                           Найден: {result.sitemap.url}
                         </p>
                       ) : (
@@ -124,55 +124,55 @@ export default function WebsiteAuditPage() {
               </div>
 
               {/* Meta Tags */}
-              <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-                <div className="p-4 border-b border-white/5">
-                  <h3 className="font-medium text-white">Мета-теги страницы</h3>
+              <div className="rounded-xl border border-border bg-muted overflow-hidden">
+                <div className="p-4 border-b border-border/40">
+                  <h3 className="font-medium text-foreground">Мета-теги страницы</h3>
                 </div>
                 <div className="p-0">
                   <table className="w-full text-sm text-left">
-                    <tbody className="divide-y divide-white/5">
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-3 font-medium text-zinc-400 w-1/3">Title</td>
+                    <tbody className="divide-y divide-border/40">
+                      <tr className="hover:bg-muted/70 transition-colors">
+                        <td className="px-4 py-3 font-medium text-muted-foreground w-1/3">Title</td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             <StatusIcon ok={!!result.meta.title} />
-                            <span className="text-white">{result.meta.title || "Отсутствует"}</span>
+                            <span className="text-foreground">{result.meta.title || "Отсутствует"}</span>
                           </div>
                         </td>
                       </tr>
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-3 font-medium text-zinc-400">Description</td>
+                      <tr className="hover:bg-muted/70 transition-colors">
+                        <td className="px-4 py-3 font-medium text-muted-foreground">Description</td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             <StatusIcon ok={!!result.meta.description} />
-                            <span className="text-white">{result.meta.description || "Отсутствует"}</span>
+                            <span className="text-foreground">{result.meta.description || "Отсутствует"}</span>
                           </div>
                         </td>
                       </tr>
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-3 font-medium text-zinc-400">Canonical URL</td>
+                      <tr className="hover:bg-muted/70 transition-colors">
+                        <td className="px-4 py-3 font-medium text-muted-foreground">Canonical URL</td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             <StatusIcon ok={!!result.meta.canonical} warn={!result.meta.canonical} />
-                            <span className="text-white break-all">{result.meta.canonical || "Отсутствует"}</span>
+                            <span className="text-foreground break-all">{result.meta.canonical || "Отсутствует"}</span>
                           </div>
                         </td>
                       </tr>
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-3 font-medium text-zinc-400">Viewport</td>
+                      <tr className="hover:bg-muted/70 transition-colors">
+                        <td className="px-4 py-3 font-medium text-muted-foreground">Viewport</td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             <StatusIcon ok={!!result.meta.viewport} />
-                            <span className="text-white">{result.meta.viewport || "Отсутствует"}</span>
+                            <span className="text-foreground">{result.meta.viewport || "Отсутствует"}</span>
                           </div>
                         </td>
                       </tr>
-                      <tr className="hover:bg-white/5 transition-colors">
-                        <td className="px-4 py-3 font-medium text-zinc-400">Количество H1</td>
+                      <tr className="hover:bg-muted/70 transition-colors">
+                        <td className="px-4 py-3 font-medium text-muted-foreground">Количество H1</td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             <StatusIcon ok={result.meta.h1Count === 1} warn={result.meta.h1Count > 1} />
-                            <span className="text-white">
+                            <span className="text-foreground">
                               {result.meta.h1Count === 0 ? "Отсутствует" : result.meta.h1Count}
                             </span>
                           </div>

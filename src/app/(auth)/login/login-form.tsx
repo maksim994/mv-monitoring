@@ -41,7 +41,7 @@ export function LoginForm() {
       <form onSubmit={onSubmit}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email" className="text-zinc-400">Email</Label>
+            <Label htmlFor="email" className="text-muted-foreground">Email</Label>
             <Input
               id="email"
               placeholder="name@example.com"
@@ -50,21 +50,21 @@ export function LoginForm() {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
-              className="h-10 bg-black border-white/10 focus-visible:ring-white/20"
+              className="h-10 bg-muted border-border focus-visible:ring-ring/40"
               required
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password" className="text-zinc-400">Пароль</Label>
+            <Label htmlFor="password" className="text-muted-foreground">Пароль</Label>
             <Input
               id="password"
               type="password"
               disabled={isLoading}
-              className="h-10 bg-black border-white/10 focus-visible:ring-white/20"
+              className="h-10 bg-muted border-border focus-visible:ring-ring/40"
               required
             />
           </div>
-          <Button type="submit" disabled={isLoading} className="h-10 bg-white text-black hover:bg-zinc-200 font-medium mt-2">
+          <Button type="submit" disabled={isLoading} className="h-10 bg-primary text-primary-foreground hover:bg-primary/90 font-medium mt-2">
             {isLoading && (
               <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
             )}

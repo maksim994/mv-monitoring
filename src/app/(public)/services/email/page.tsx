@@ -44,20 +44,20 @@ export default function EmailToolkitPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <Mail className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <Mail className="h-4 w-4 text-foreground" />
             </div>
             Email Toolkit
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Анализ почтовых записей домена: SPF, DKIM, DMARC и доступность SMTP
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function EmailToolkitPage() {
                 placeholder="example.com"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
@@ -82,10 +82,10 @@ export default function EmailToolkitPage() {
                 placeholder="DKIM Selector (опц.)"
                 value={selector}
                 onChange={(e) => setSelector(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Проверка..." : "Проверить"}
             </Button>
           </form>
@@ -104,11 +104,11 @@ export default function EmailToolkitPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon ok={result.spf.found && result.spf.valid} />
                   <div className="flex-1">
-                    <h3 className="font-medium text-white mb-1">SPF (Sender Policy Framework)</h3>
+                    <h3 className="font-medium text-foreground mb-1">SPF (Sender Policy Framework)</h3>
                     {result.spf.found ? (
                       <>
-                        <p className="text-sm text-zinc-400 mb-2">Запись найдена:</p>
-                        <code className="block p-3 rounded-lg bg-black border border-white/5 text-sm text-zinc-300 break-all">
+                        <p className="text-sm text-muted-foreground mb-2">Запись найдена:</p>
+                        <code className="block p-3 rounded-lg bg-muted border border-border/40 text-sm text-foreground/90 break-all">
                           {result.spf.record}
                         </code>
                         {!result.spf.valid && (
@@ -129,18 +129,18 @@ export default function EmailToolkitPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon ok={result.dmarc.found} />
                   <div className="flex-1">
-                    <h3 className="font-medium text-white mb-1">DMARC</h3>
+                    <h3 className="font-medium text-foreground mb-1">DMARC</h3>
                     {result.dmarc.found ? (
                       <>
-                        <p className="text-sm text-zinc-400 mb-2">Запись найдена (_dmarc.{result.domain}):</p>
-                        <code className="block p-3 rounded-lg bg-black border border-white/5 text-sm text-zinc-300 break-all mb-3">
+                        <p className="text-sm text-muted-foreground mb-2">Запись найдена (_dmarc.{result.domain}):</p>
+                        <code className="block p-3 rounded-lg bg-muted border border-border/40 text-sm text-foreground/90 break-all mb-3">
                           {result.dmarc.record}
                         </code>
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           {Object.entries(result.dmarc.parsed).map(([key, val]) => (
-                            <div key={key} className="flex bg-black/50 rounded border border-white/5 p-2">
-                              <span className="text-zinc-500 w-12 font-mono">{key}:</span>
-                              <span className="text-white font-mono truncate">{val as string}</span>
+                            <div key={key} className="flex bg-muted/60 rounded border border-border/40 p-2">
+                              <span className="text-muted-foreground w-12 font-mono">{key}:</span>
+                              <span className="text-foreground font-mono truncate">{val as string}</span>
                             </div>
                           ))}
                         </div>
@@ -158,11 +158,11 @@ export default function EmailToolkitPage() {
                   <div className="flex items-start gap-3">
                     <StatusIcon ok={result.dkim.found} />
                     <div className="flex-1">
-                      <h3 className="font-medium text-white mb-1">DKIM (DomainKeys Identified Mail)</h3>
+                      <h3 className="font-medium text-foreground mb-1">DKIM (DomainKeys Identified Mail)</h3>
                       {result.dkim.found ? (
                         <>
-                          <p className="text-sm text-zinc-400 mb-2">Запись найдена для селектора "{selector}":</p>
-                          <code className="block p-3 rounded-lg bg-black border border-white/5 text-sm text-zinc-300 break-all">
+                          <p className="text-sm text-muted-foreground mb-2">Запись найдена для селектора "{selector}":</p>
+                          <code className="block p-3 rounded-lg bg-muted border border-border/40 text-sm text-foreground/90 break-all">
                             {result.dkim.record}
                           </code>
                         </>
@@ -179,31 +179,31 @@ export default function EmailToolkitPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon ok={result.mx.found} />
                   <div className="flex-1">
-                    <h3 className="font-medium text-white mb-1">MX Записи & SMTP</h3>
+                    <h3 className="font-medium text-foreground mb-1">MX Записи & SMTP</h3>
                     {result.mx.found ? (
                       <div className="space-y-4">
                         <div>
-                          <p className="text-sm text-zinc-400 mb-2">Почтовые серверы:</p>
+                          <p className="text-sm text-muted-foreground mb-2">Почтовые серверы:</p>
                           <div className="space-y-2">
                             {result.mx.records.map((mx: any, i: number) => (
-                              <div key={i} className="flex items-center justify-between p-2 rounded bg-black border border-white/5 text-sm">
-                                <span className="text-white">{mx.exchange}</span>
-                                <span className="text-zinc-500">Приоритет: {mx.priority}</span>
+                              <div key={i} className="flex items-center justify-between p-2 rounded bg-muted border border-border/40 text-sm">
+                                <span className="text-foreground">{mx.exchange}</span>
+                                <span className="text-muted-foreground">Приоритет: {mx.priority}</span>
                               </div>
                             ))}
                           </div>
                         </div>
                         
                         <div>
-                          <p className="text-sm text-zinc-400 mb-2">Доступность портов (Primary MX):</p>
+                          <p className="text-sm text-muted-foreground mb-2">Доступность портов (Primary MX):</p>
                           <div className="flex gap-4">
                             <div className="flex items-center gap-2">
                               <div className={`w-2 h-2 rounded-full ${result.mx.smtpPorts['25'] ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                              <span className="text-sm text-zinc-300">Порт 25</span>
+                              <span className="text-sm text-foreground/90">Порт 25</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <div className={`w-2 h-2 rounded-full ${result.mx.smtpPorts['587'] ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                              <span className="text-sm text-zinc-300">Порт 587</span>
+                              <span className="text-sm text-foreground/90">Порт 587</span>
                             </div>
                           </div>
                         </div>

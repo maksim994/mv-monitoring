@@ -10,9 +10,10 @@ export function ProjectCard({ project }: { project: any }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const domainToUse = project.domain || (project.name.includes('.') ? project.name : null);
+  const domainConfirmed = Boolean(project.domain && project.domainVerifiedAt);
 
   useEffect(() => {
-    if (!domainToUse) return;
+    if (!domainToUse || !domainConfirmed) return;
 
     const fetchInfo = async () => {
       setIsLoading(true);
@@ -46,38 +47,46 @@ export function ProjectCard({ project }: { project: any }) {
     };
 
     fetchInfo();
-  }, [domainToUse]);
+  }, [domainToUse, domainConfirmed]);
 
   return (
     <Link href={`/dashboard/projects/${project.id}`} className="group block h-full">
-      <div className="rounded-2xl border border-white/10 bg-[#111] p-6 h-full flex flex-col group-hover:bg-[#151515] group-hover:border-white/20 transition-all">
+      <div className="rounded-2xl border border-border bg-card p-6 h-full flex flex-col group-hover:bg-muted/80 group-hover:border-foreground/20 transition-all">
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-            <Folder className="h-5 w-5 text-white" />
+          <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center shrink-0">
+            <Folder className="h-5 w-5 text-foreground" />
           </div>
           <div className="overflow-hidden">
-            <h3 className="text-xl font-medium text-white truncate">{project.name}</h3>
+            <h3 className="text-xl font-medium text-foreground truncate">{project.name}</h3>
             {project.domain && (
-              <p className="text-sm text-zinc-500 truncate">{project.domain}</p>
+              <p className="text-sm text-muted-foreground truncate">{project.domain}</p>
             )}
           </div>
         </div>
         
-        <div className="mt-auto space-y-3 pt-4 border-t border-white/5">
+        <div className="mt-auto space-y-3 pt-4 border-t border-border/40">
           {!domainToUse ? (
-            <p className="text-sm text-zinc-500 font-light">
+            <p className="text-sm text-muted-foreground font-light">
               Домен не указан. Добавьте домен для мониторинга SSL и Whois.
+            </p>
+          ) : domainToUse && !project.domain ? (
+            <p className="text-sm text-muted-foreground font-light">
+              Укажите основной домен в настройках проекта для SSL и Whois.
+            </p>
+          ) : project.domain && !project.domainVerifiedAt ? (
+            <p className="text-sm text-amber-600/90 dark:text-amber-500/90 font-light">
+              Домен не подтверждён. Откройте проект и подтвердите владение, чтобы видеть SSL и Whois.
             </p>
           ) : isLoading ? (
             <div className="space-y-2 animate-pulse">
-              <div className="h-4 w-3/4 bg-white/5 rounded"></div>
-              <div className="h-4 w-1/2 bg-white/5 rounded"></div>
+              <div className="h-4 w-3/4 bg-muted/40 rounded"></div>
+              <div className="h-4 w-1/2 bg-muted/40 rounded"></div>
             </div>
           ) : (
             <>
               {sslInfo && (
                 <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2 text-zinc-400">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <Lock className="h-4 w-4" />
                     <span>SSL до:</span>
                   </div>
@@ -88,11 +97,11 @@ export function ProjectCard({ project }: { project: any }) {
               )}
               {whoisInfo && (
                 <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2 text-zinc-400">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <Globe className="h-4 w-4" />
                     <span>Домен до:</span>
                   </div>
-                  <span className="font-medium text-white truncate max-w-[120px] text-right" title={whoisInfo.expiresAt}>
+                  <span className="font-medium text-foreground truncate max-w-[120px] text-right" title={whoisInfo.expiresAt}>
                     {whoisInfo.expiresAt.split('T')[0]}
                   </span>
                 </div>

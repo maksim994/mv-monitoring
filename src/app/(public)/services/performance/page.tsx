@@ -45,20 +45,20 @@ export default function PerformanceToolPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <Gauge className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <Gauge className="h-4 w-4 text-foreground" />
             </div>
             Performance
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Анализ скорости загрузки страницы и сетевых метрик (TTFB, DNS, TLS)
           </p>
         </div>
@@ -73,11 +73,11 @@ export default function PerformanceToolPage() {
                 placeholder="https://example.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Анализ..." : "Анализировать"}
             </Button>
           </form>
@@ -93,48 +93,48 @@ export default function PerformanceToolPage() {
               
               {/* Summary Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="rounded-xl border border-white/10 bg-black p-4">
-                  <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                <div className="rounded-xl border border-border bg-muted p-4">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Activity className="h-4 w-4" />
                     <span className="text-sm">Статус</span>
                   </div>
-                  <div className="text-2xl font-medium text-white">
+                  <div className="text-2xl font-medium text-foreground">
                     {result.statusCode}
                   </div>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-black p-4">
-                  <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                <div className="rounded-xl border border-border bg-muted p-4">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Zap className="h-4 w-4" />
                     <span className="text-sm">TTFB</span>
                   </div>
                   <div className={`text-2xl font-medium ${result.timings.ttfb < 200 ? 'text-emerald-500' : result.timings.ttfb < 600 ? 'text-yellow-500' : 'text-red-500'}`}>
-                    {result.timings.ttfb} <span className="text-sm text-zinc-500">мс</span>
+                    {result.timings.ttfb} <span className="text-sm text-muted-foreground">мс</span>
                   </div>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-black p-4">
-                  <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                <div className="rounded-xl border border-border bg-muted p-4">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Server className="h-4 w-4" />
                     <span className="text-sm">Размер</span>
                   </div>
-                  <div className="text-2xl font-medium text-white">
+                  <div className="text-2xl font-medium text-foreground">
                     {formatBytes(result.downloadSize)}
                   </div>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-black p-4">
-                  <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                <div className="rounded-xl border border-border bg-muted p-4">
+                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
                     <Gauge className="h-4 w-4" />
                     <span className="text-sm">Время</span>
                   </div>
-                  <div className="text-2xl font-medium text-white">
-                    {result.timings.total} <span className="text-sm text-zinc-500">мс</span>
+                  <div className="text-2xl font-medium text-foreground">
+                    {result.timings.total} <span className="text-sm text-muted-foreground">мс</span>
                   </div>
                 </div>
               </div>
 
               {/* Waterfall */}
-              <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-                <div className="p-4 border-b border-white/5">
-                  <h3 className="font-medium text-white">Waterfall</h3>
+              <div className="rounded-xl border border-border bg-muted overflow-hidden">
+                <div className="p-4 border-b border-border/40">
+                  <h3 className="font-medium text-foreground">Waterfall</h3>
                 </div>
                 <div className="p-6">
                   <div className="space-y-4">
@@ -157,8 +157,8 @@ export default function PerformanceToolPage() {
 
                       return (
                         <div key={item.label} className="flex items-center gap-4 text-sm">
-                          <div className="w-32 text-zinc-400 shrink-0">{item.label}</div>
-                          <div className="flex-1 h-4 bg-white/5 rounded-full overflow-hidden relative">
+                          <div className="w-32 text-muted-foreground shrink-0">{item.label}</div>
+                          <div className="flex-1 h-4 bg-muted/40 rounded-full overflow-hidden relative">
                             <div 
                               className={`absolute h-full ${item.color} rounded-full transition-all duration-500`}
                               style={{ 
@@ -168,17 +168,17 @@ export default function PerformanceToolPage() {
                               }}
                             />
                           </div>
-                          <div className="w-16 text-right text-white font-mono shrink-0">
+                          <div className="w-16 text-right text-foreground font-mono shrink-0">
                             {item.value} мс
                           </div>
                         </div>
                       );
                     })}
                     
-                    <div className="pt-4 mt-4 border-t border-white/5 flex items-center gap-4 text-sm font-medium">
-                      <div className="w-32 text-white shrink-0">Total Time</div>
+                    <div className="pt-4 mt-4 border-t border-border/40 flex items-center gap-4 text-sm font-medium">
+                      <div className="w-32 text-foreground shrink-0">Total Time</div>
                       <div className="flex-1" />
-                      <div className="w-16 text-right text-white font-mono shrink-0">
+                      <div className="w-16 text-right text-foreground font-mono shrink-0">
                         {result.timings.total} мс
                       </div>
                     </div>

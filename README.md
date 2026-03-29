@@ -34,3 +34,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Operations (prod)
+
+- **Health:** `GET /api/health` — проверка ответа приложения и запроса к БД.
+- **Биллинг:** воркер раз в час выполняет `runBillingMaintenance()` (истечение PRO, попытки рекуррентного списания ЮKassa). Нужны `YOOKASSA_*` в окружении воркера.
+- **Бэкапы PostgreSQL:** настройте снимки тома `postgres_data` или `pg_dump` по cron на хосте (в compose том именованный `postgres_data`).
+- **Админка:** роль `admin` в таблице `user` или список email в `ADMIN_EMAILS` (через запятую). Юридические тексты на `/legal/*` — шаблоны; согласуйте с юристом (152-ФЗ, оферта).

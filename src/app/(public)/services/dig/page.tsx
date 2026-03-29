@@ -60,20 +60,20 @@ export default function DigPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <Search className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <Search className="h-4 w-4 text-foreground" />
             </div>
             Утилита Dig
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Выполните DNS-запрос для получения информации о записях домена
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function DigPage() {
                 placeholder="example.com"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
@@ -97,7 +97,7 @@ export default function DigPage() {
                 id="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="flex h-12 w-full items-center justify-between rounded-md border border-white/10 bg-black px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20"
+                className="flex h-12 w-full items-center justify-between rounded-md border border-border bg-muted px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring/40"
               >
                 <option value="ANY">Все записи (ANY)</option>
                 <option value="A">A</option>
@@ -109,7 +109,7 @@ export default function DigPage() {
                 <option value="SOA">SOA</option>
               </select>
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Запрос..." : "Проверить"}
             </Button>
           </form>
@@ -126,19 +126,19 @@ export default function DigPage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8 bg-[#111] border-white/10 hover:bg-white/10 hover:text-white"
+                  className="h-8 w-8 bg-card border-border hover:bg-muted hover:text-foreground"
                   onClick={handleCopy}
                   title="Копировать результат"
                 >
                   {isCopied ? (
                     <Check className="h-4 w-4 text-emerald-500" />
                   ) : (
-                    <Copy className="h-4 w-4 text-zinc-400" />
+                    <Copy className="h-4 w-4 text-muted-foreground" />
                   )}
                 </Button>
               </div>
-              <div className="rounded-xl bg-black border border-white/5 p-6 overflow-x-auto min-h-[100px]">
-                <pre className="text-sm text-zinc-300 font-mono whitespace-pre-wrap leading-relaxed">
+              <div className="rounded-xl bg-muted border border-border/40 p-6 overflow-x-auto min-h-[100px]">
+                <pre className="text-sm text-foreground/90 font-mono whitespace-pre-wrap leading-relaxed">
                   {result || "Записи не найдены"}
                 </pre>
               </div>

@@ -46,20 +46,20 @@ export default function SSLPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <Lock className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <Lock className="h-4 w-4 text-foreground" />
             </div>
             Проверка SSL сертификата
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Узнайте срок действия, кем выдан и статус SSL сертификата для любого домена
           </p>
         </div>
@@ -73,11 +73,11 @@ export default function SSLPage() {
                 placeholder="example.com"
                 value={domain}
                 onChange={(e) => setDomain(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Проверка..." : "Проверить"}
             </Button>
           </form>
@@ -107,36 +107,36 @@ export default function SSLPage() {
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-xl bg-black border border-white/5 p-6">
-                  <div className="text-sm text-zinc-500 mb-1">Осталось дней</div>
-                  <div className={`text-3xl font-medium ${result.daysRemaining < 14 ? 'text-red-500' : result.daysRemaining < 30 ? 'text-yellow-500' : 'text-white'}`}>
+                <div className="rounded-xl bg-muted border border-border/40 p-6">
+                  <div className="text-sm text-muted-foreground mb-1">Осталось дней</div>
+                  <div className={`text-3xl font-medium ${result.daysRemaining < 14 ? 'text-red-500' : result.daysRemaining < 30 ? 'text-yellow-500' : 'text-foreground'}`}>
                     {result.daysRemaining}
                   </div>
                 </div>
-                <div className="rounded-xl bg-black border border-white/5 p-6">
-                  <div className="text-sm text-zinc-500 mb-1">Кем выдан (Issuer)</div>
-                  <div className="text-lg font-medium text-white truncate" title={result.issuer.O || result.issuer.CN}>
+                <div className="rounded-xl bg-muted border border-border/40 p-6">
+                  <div className="text-sm text-muted-foreground mb-1">Кем выдан (Issuer)</div>
+                  <div className="text-lg font-medium text-foreground truncate" title={result.issuer.O || result.issuer.CN}>
                     {result.issuer.O || result.issuer.CN || "Неизвестно"}
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-xl bg-black border border-white/5 p-6 space-y-4">
+              <div className="rounded-xl bg-muted border border-border/40 p-6 space-y-4">
                 <div>
-                  <div className="text-sm text-zinc-500 mb-1">Действителен с</div>
-                  <div className="text-white">{new Date(result.validFrom).toLocaleString("ru-RU")}</div>
+                  <div className="text-sm text-muted-foreground mb-1">Действителен с</div>
+                  <div className="text-foreground">{new Date(result.validFrom).toLocaleString("ru-RU")}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-zinc-500 mb-1">Действителен до</div>
-                  <div className="text-white">{new Date(result.validTo).toLocaleString("ru-RU")}</div>
+                  <div className="text-sm text-muted-foreground mb-1">Действителен до</div>
+                  <div className="text-foreground">{new Date(result.validTo).toLocaleString("ru-RU")}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-zinc-500 mb-1">Субъект (Subject)</div>
-                  <div className="text-white font-mono text-sm">{result.subject.CN}</div>
+                  <div className="text-sm text-muted-foreground mb-1">Субъект (Subject)</div>
+                  <div className="text-foreground font-mono text-sm">{result.subject.CN}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-zinc-500 mb-1">Отпечаток (Fingerprint)</div>
-                  <div className="text-white font-mono text-sm break-all">{result.fingerprint}</div>
+                  <div className="text-sm text-muted-foreground mb-1">Отпечаток (Fingerprint)</div>
+                  <div className="text-foreground font-mono text-sm break-all">{result.fingerprint}</div>
                 </div>
               </div>
             </div>

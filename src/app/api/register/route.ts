@@ -6,10 +6,14 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password, personalDataConsent } = await req.json();
 
     if (!email || !password) {
       return new NextResponse("Missing email or password", { status: 400 });
+    }
+
+    if (!personalDataConsent) {
+      return new NextResponse("Consent required", { status: 400 });
     }
 
     const existingUser = await db.query.users.findFirst({
@@ -26,6 +30,7 @@ export async function POST(req: Request) {
       name,
       email,
       password: hashedPassword,
+      personalDataConsentAt: new Date(),
     });
 
     return new NextResponse("User created", { status: 201 });

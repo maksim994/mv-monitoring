@@ -36,27 +36,27 @@ export default function SecurityScanPage() {
   };
 
   const StatusIcon = ({ vulnerable, checked }: { vulnerable: boolean, checked: boolean }) => {
-    if (!checked) return <AlertTriangle className="h-5 w-5 text-zinc-500 shrink-0" />;
+    if (!checked) return <AlertTriangle className="h-5 w-5 text-muted-foreground shrink-0" />;
     if (vulnerable) return <XCircle className="h-5 w-5 text-red-500 shrink-0" />;
     return <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0" />;
   };
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <ShieldAlert className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <ShieldAlert className="h-4 w-4 text-foreground" />
             </div>
             Security Quick Scan
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Быстрая проверка на распространенные уязвимости: открытые .env, .git, Directory Listing и CORS
           </p>
         </div>
@@ -71,11 +71,11 @@ export default function SecurityScanPage() {
                 placeholder="https://example.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Сканирование..." : "Сканировать"}
             </Button>
           </form>
@@ -94,11 +94,11 @@ export default function SecurityScanPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon vulnerable={result.env.vulnerable} checked={result.env.checked} />
                   <div>
-                    <h3 className="font-medium text-white mb-1">Открытый .env файл</h3>
+                    <h3 className="font-medium text-foreground mb-1">Открытый .env файл</h3>
                     {result.env.vulnerable ? (
                       <p className="text-sm text-red-400 font-medium">КРИТИЧЕСКАЯ УЯЗВИМОСТЬ: {result.env.details}</p>
                     ) : (
-                      <p className="text-sm text-zinc-400">Файл .env не доступен публично (Безопасно).</p>
+                      <p className="text-sm text-muted-foreground">Файл .env не доступен публично (Безопасно).</p>
                     )}
                   </div>
                 </div>
@@ -109,11 +109,11 @@ export default function SecurityScanPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon vulnerable={result.git.vulnerable} checked={result.git.checked} />
                   <div>
-                    <h3 className="font-medium text-white mb-1">Открытая директория .git</h3>
+                    <h3 className="font-medium text-foreground mb-1">Открытая директория .git</h3>
                     {result.git.vulnerable ? (
                       <p className="text-sm text-red-400 font-medium">КРИТИЧЕСКАЯ УЯЗВИМОСТЬ: {result.git.details}</p>
                     ) : (
-                      <p className="text-sm text-zinc-400">Директория .git не доступна публично (Безопасно).</p>
+                      <p className="text-sm text-muted-foreground">Директория .git не доступна публично (Безопасно).</p>
                     )}
                   </div>
                 </div>
@@ -124,11 +124,11 @@ export default function SecurityScanPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon vulnerable={result.dirListing.vulnerable} checked={result.dirListing.checked} />
                   <div>
-                    <h3 className="font-medium text-white mb-1">Directory Listing</h3>
+                    <h3 className="font-medium text-foreground mb-1">Directory Listing</h3>
                     {result.dirListing.vulnerable ? (
                       <p className="text-sm text-yellow-400 font-medium">ПРЕДУПРЕЖДЕНИЕ: {result.dirListing.details}</p>
                     ) : (
-                      <p className="text-sm text-zinc-400">Просмотр директорий отключен (Безопасно).</p>
+                      <p className="text-sm text-muted-foreground">Просмотр директорий отключен (Безопасно).</p>
                     )}
                   </div>
                 </div>
@@ -139,11 +139,11 @@ export default function SecurityScanPage() {
                 <div className="flex items-start gap-3">
                   <StatusIcon vulnerable={result.cors.vulnerable} checked={result.cors.checked} />
                   <div>
-                    <h3 className="font-medium text-white mb-1">CORS Misconfiguration</h3>
+                    <h3 className="font-medium text-foreground mb-1">CORS Misconfiguration</h3>
                     {result.cors.vulnerable ? (
                       <p className="text-sm text-yellow-400 font-medium">ПРЕДУПРЕЖДЕНИЕ: {result.cors.details}</p>
                     ) : (
-                      <p className="text-sm text-zinc-400">Заголовок Access-Control-Allow-Origin настроен безопасно.</p>
+                      <p className="text-sm text-muted-foreground">Заголовок Access-Control-Allow-Origin настроен безопасно.</p>
                     )}
                   </div>
                 </div>

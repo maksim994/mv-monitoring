@@ -52,20 +52,20 @@ export default function HttpInspectorPage() {
 
   return (
     <div className="container mx-auto py-12 px-6 max-w-4xl">
-      <Link href="/services" className="inline-flex items-center text-sm text-zinc-500 hover:text-white mb-8 transition-colors">
+      <Link href="/services" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к сервисам
       </Link>
 
-      <div className="rounded-2xl border border-white/10 bg-[#111] overflow-hidden">
-        <div className="p-8 border-b border-white/5">
+      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+        <div className="p-8 border-b border-border/40">
           <h1 className="text-2xl font-medium flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
-              <Activity className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+              <Activity className="h-4 w-4 text-foreground" />
             </div>
             HTTP Inspector
           </h1>
-          <p className="text-zinc-400 font-light">
+          <p className="text-muted-foreground font-light">
             Анализ HTTP-ответов, заголовков, цепочек редиректов и таймингов
           </p>
         </div>
@@ -80,11 +80,11 @@ export default function HttpInspectorPage() {
                 placeholder="https://example.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="h-12 bg-black border-white/10 focus-visible:ring-white/20"
+                className="h-12 bg-muted border-border focus-visible:ring-ring/40"
                 required
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-white text-black hover:bg-zinc-200 font-medium">
+            <Button type="submit" disabled={isLoading} className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
               {isLoading ? "Анализ..." : "Анализировать"}
             </Button>
           </form>
@@ -99,34 +99,34 @@ export default function HttpInspectorPage() {
             <div className="space-y-6">
               {/* Сводка */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="rounded-xl bg-black border border-white/5 p-4">
-                  <div className="text-xs text-zinc-500 mb-1">Статус</div>
+                <div className="rounded-xl bg-muted border border-border/40 p-4">
+                  <div className="text-xs text-muted-foreground mb-1">Статус</div>
                   <div className={`inline-flex px-2 py-0.5 rounded text-sm font-medium border ${getStatusColor(result.statusCode)}`}>
                     {result.statusCode}
                   </div>
                 </div>
-                <div className="rounded-xl bg-black border border-white/5 p-4">
-                  <div className="text-xs text-zinc-500 mb-1">Протокол</div>
-                  <div className="text-sm font-medium text-white">
+                <div className="rounded-xl bg-muted border border-border/40 p-4">
+                  <div className="text-xs text-muted-foreground mb-1">Протокол</div>
+                  <div className="text-sm font-medium text-foreground">
                     {result.httpVersion === "3" ? "HTTP/3" : result.httpVersion === "2" ? "HTTP/2" : `HTTP/${result.httpVersion}`}
                   </div>
                 </div>
-                <div className="rounded-xl bg-black border border-white/5 p-4">
-                  <div className="text-xs text-zinc-500 mb-1">IP Адрес</div>
-                  <div className="text-sm font-medium text-white">{result.ip}</div>
+                <div className="rounded-xl bg-muted border border-border/40 p-4">
+                  <div className="text-xs text-muted-foreground mb-1">IP Адрес</div>
+                  <div className="text-sm font-medium text-foreground">{result.ip}</div>
                 </div>
-                <div className="rounded-xl bg-black border border-white/5 p-4">
-                  <div className="text-xs text-zinc-500 mb-1">Сжатие</div>
-                  <div className="text-sm font-medium text-white">{result.compression}</div>
+                <div className="rounded-xl bg-muted border border-border/40 p-4">
+                  <div className="text-xs text-muted-foreground mb-1">Сжатие</div>
+                  <div className="text-sm font-medium text-foreground">{result.compression}</div>
                 </div>
               </div>
 
               {/* Тайминги */}
-              <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-                <div className="p-4 border-b border-white/5 flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-zinc-400" />
+              <div className="rounded-xl border border-border bg-muted overflow-hidden">
+                <div className="p-4 border-b border-border/40 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
                   <h3 className="font-medium">Тайминги (Waterfall)</h3>
-                  <span className="ml-auto text-sm text-zinc-500">Всего: {result.timings.total} мс</span>
+                  <span className="ml-auto text-sm text-muted-foreground">Всего: {result.timings.total} мс</span>
                 </div>
                 <div className="p-4 space-y-3">
                   {[
@@ -137,14 +137,14 @@ export default function HttpInspectorPage() {
                     { label: "Загрузка контента", value: result.timings.contentTransfer, color: "bg-cyan-500" },
                   ].map((timing, i) => (
                     <div key={i} className="flex items-center gap-4 text-sm">
-                      <div className="w-32 text-zinc-400 shrink-0">{timing.label}</div>
-                      <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden flex">
+                      <div className="w-32 text-muted-foreground shrink-0">{timing.label}</div>
+                      <div className="flex-1 h-2 bg-muted/40 rounded-full overflow-hidden flex">
                         <div 
                           className={`h-full ${timing.color}`} 
                           style={{ width: `${Math.max((timing.value / result.timings.total) * 100, 1)}%` }}
                         />
                       </div>
-                      <div className="w-16 text-right font-mono text-white shrink-0">{timing.value} мс</div>
+                      <div className="w-16 text-right font-mono text-foreground shrink-0">{timing.value} мс</div>
                     </div>
                   ))}
                 </div>
@@ -152,9 +152,9 @@ export default function HttpInspectorPage() {
 
               {/* Цепочка редиректов */}
               {result.redirects.length > 1 && (
-                <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-                  <div className="p-4 border-b border-white/5 flex items-center gap-2">
-                    <ArrowRight className="h-4 w-4 text-zinc-400" />
+                <div className="rounded-xl border border-border bg-muted overflow-hidden">
+                  <div className="p-4 border-b border-border/40 flex items-center gap-2">
+                    <ArrowRight className="h-4 w-4 text-muted-foreground" />
                     <h3 className="font-medium">Цепочка редиректов</h3>
                   </div>
                   <div className="p-4 space-y-4">
@@ -164,12 +164,12 @@ export default function HttpInspectorPage() {
                           {redirect.statusCode}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-white mb-1">
+                          <div className="text-sm font-medium text-foreground mb-1">
                             {i === 0 ? "Начальный запрос" : `Редирект ${i}`}
                           </div>
                           {redirect.headers.location && (
-                            <div className="text-xs text-zinc-400 break-all">
-                              <span className="text-zinc-500">Location:</span> {redirect.headers.location}
+                            <div className="text-xs text-muted-foreground break-all">
+                              <span className="text-muted-foreground">Location:</span> {redirect.headers.location}
                             </div>
                           )}
                         </div>
@@ -180,19 +180,19 @@ export default function HttpInspectorPage() {
               )}
 
               {/* Заголовки */}
-              <div className="rounded-xl border border-white/10 bg-black overflow-hidden">
-                <div className="p-4 border-b border-white/5 flex items-center gap-2">
-                  <Server className="h-4 w-4 text-zinc-400" />
+              <div className="rounded-xl border border-border bg-muted overflow-hidden">
+                <div className="p-4 border-b border-border/40 flex items-center gap-2">
+                  <Server className="h-4 w-4 text-muted-foreground" />
                   <h3 className="font-medium">Заголовки ответа (Финальные)</h3>
                 </div>
                 <div className="p-0">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
-                      <tbody className="divide-y divide-white/5">
+                      <tbody className="divide-y divide-border/40">
                         {Object.entries(result.finalHeaders).map(([key, value]: [string, any]) => (
-                          <tr key={key} className="hover:bg-white/5 transition-colors">
-                            <td className="px-4 py-2 font-medium text-zinc-400 w-1/3 align-top">{key}</td>
-                            <td className="px-4 py-2 text-white font-mono text-xs break-all">{value}</td>
+                          <tr key={key} className="hover:bg-muted/70 transition-colors">
+                            <td className="px-4 py-2 font-medium text-muted-foreground w-1/3 align-top">{key}</td>
+                            <td className="px-4 py-2 text-foreground font-mono text-xs break-all">{value}</td>
                           </tr>
                         ))}
                       </tbody>

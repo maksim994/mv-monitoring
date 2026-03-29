@@ -10,6 +10,8 @@ if (!process.env.NEXTAUTH_SECRET?.trim()) {
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  devIndicators: false,
+  poweredByHeader: false,
   typescript: {
     ignoreBuildErrors: true,
   },
